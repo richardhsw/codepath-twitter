@@ -13,10 +13,17 @@ class HomeTableViewController: UITableViewController {
     var tweetArray = [NSDictionary]()
     var numOfTweets: Int!
 
+    // MARK: - Init Code
     override func viewDidLoad() {
         super.viewDidLoad()
         
         loadTweets()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationItem.leftBarButtonItem = nil
+        self.navigationItem.hidesBackButton = true
     }
     
     // MARK: - Twitter Functions

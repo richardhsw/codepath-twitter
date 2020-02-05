@@ -21,6 +21,10 @@ class LoginViewController: UIViewController {
         loginButton.layer.borderWidth = 0
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = true
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         if (UserDefaults.standard.bool(forKey: "isLoggedIn")) {
             self.performSegue(withIdentifier: "loginSuccess", sender: self)
