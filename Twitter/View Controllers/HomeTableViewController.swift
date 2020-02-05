@@ -15,6 +15,7 @@ class HomeTableViewController: UITableViewController {
     let myRefreshControl = UIRefreshControl()
     var tweetArray = [NSDictionary]()
     var numOfTweets: Int!
+    var noMoreData = false
 
     
     // MARK: - Initialization
@@ -66,13 +67,10 @@ class HomeTableViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        /*
-        if (indexPath.row + 1 == tweetArray.count) {
-            print("HERE")
+    override open func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if (indexPath.row + 1 == tweetArray.count) && !noMoreData {
             loadMoreTweets()
         }
-        */
     }
     
     
@@ -106,27 +104,32 @@ class HomeTableViewController: UITableViewController {
     }
     
     func loadMoreTweets() {
-        numOfTweets += 20
+        numOfTweets = numOfTweets + 20
         
         let tweetsAPI = "https://api.twitter.com/1.1/statuses/home_timeline.json"
         let params = ["counts": numOfTweets]
         
         TwitterAPICaller.client?.getDictionariesRequest(url: tweetsAPI, parameters: params as [String : Any], success: { (tweetsJSON: [NSDictionary]) in
             
-            self.populateTwitterArray(tweets: tweetsJSON)
+            // If there are no new data obtained from API call,
+            // stop infinite scrolling to prevent loop.
+            if (tweetsJSON.count == self.numOfTweets - 20) {
+                self.noMoreData = true
+            }
+            else {
+                self.populateTwitterArray(tweets: tweetsJSON)
+                self.noMoreData = false
+            }
             
         }, failure: { (Error) in
             print("ERROR: Could not retrieve more tweets.")
         })
-        
     }
-    
 
     // MARK: - Action Functions
     @IBAction func onLogoutClicked(_ sender: Any) {
         TwitterAPICaller.client?.logout()
         UserDefaults.standard.set(false, forKey: "isLoggedIn")
-        // self.dismiss(animated: true, completion: nil)
         self.performSegue(withIdentifier: "unwindToLogin", sender: self)
     }
 }
