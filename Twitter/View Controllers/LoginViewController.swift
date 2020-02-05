@@ -10,8 +10,15 @@ import UIKit
 
 class LoginViewController: UIViewController {
     
+    // MARK: - Variables
+    @IBOutlet weak var loginButton: UIButton!
+    
+    // MARK: - Init Code
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        loginButton.layer.cornerRadius = 20
+        loginButton.layer.borderWidth = 0
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -20,6 +27,7 @@ class LoginViewController: UIViewController {
         }
     }
     
+    // MARK: - Action Functions
     @IBAction func onLoginClicked(_ sender: Any) {
         let loginURL = "https://api.twitter.com/oauth/request_token"
         
@@ -31,6 +39,10 @@ class LoginViewController: UIViewController {
         }, failure: {(Error) in
             print("Login Failure")
         })
+    }
+    
+    @IBAction func prepareForUnwind(segue: UIStoryboardSegue) {
+
     }
     
     /*

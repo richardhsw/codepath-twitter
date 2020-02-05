@@ -80,6 +80,7 @@ class HomeTableViewController: UITableViewController {
     @IBAction func onLogoutClicked(_ sender: Any) {
         TwitterAPICaller.client?.logout()
         UserDefaults.standard.set(false, forKey: "isLoggedIn")
-        self.dismiss(animated: true, completion: nil)
+        // self.dismiss(animated: true, completion: nil)
+        self.performSegue(withIdentifier: "unwindToLogin", sender: self)
     }
 }
