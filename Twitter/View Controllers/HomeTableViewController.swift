@@ -10,14 +10,21 @@ import UIKit
 
 class HomeTableViewController: UITableViewController {
     
+    
+    // MARK: - Variables
+    let myRefreshControl = UIRefreshControl()
     var tweetArray = [NSDictionary]()
     var numOfTweets: Int!
 
-    // MARK: - Init Code
+    
+    // MARK: - Initialization
     override func viewDidLoad() {
         super.viewDidLoad()
         
         loadTweets()
+        
+        myRefreshControl.addTarget(self, action: #selector(loadTweets), for: .valueChanged)
+        tableView.refreshControl = myRefreshControl
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -26,32 +33,8 @@ class HomeTableViewController: UITableViewController {
         self.navigationItem.hidesBackButton = true
     }
     
-    // MARK: - Twitter Functions
-    func loadTweets() {
-        let tweetsAPI = "https://api.twitter.com/1.1/statuses/home_timeline.json"
-        let params = ["counts": 10]
-        
-        TwitterAPICaller.client?.getDictionariesRequest(url: tweetsAPI, parameters: params, success: { (tweetsJSON: [NSDictionary]) in
-            
-            self.populateTwitterArray(tweets: tweetsJSON)
-            
-        }, failure: { (Error) in
-            print("ERROR: Could not retrieve tweets.")
-        })
-    }
-    
-    func populateTwitterArray(tweets: [NSDictionary]){
-        self.tweetArray.removeAll()
-        
-        for tweet in tweets {
-            self.tweetArray.append(tweet)
-        }
-        
-        self.tableView.reloadData()
-    }
     
     // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -82,6 +65,62 @@ class HomeTableViewController: UITableViewController {
         
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        /*
+        if (indexPath.row + 1 == tweetArray.count) {
+            print("HERE")
+            loadMoreTweets()
+        }
+        */
+    }
+    
+    
+    // MARK: - Twitter Functions
+    @objc func loadTweets() {
+        numOfTweets = 20
+        
+        let tweetsAPI = "https://api.twitter.com/1.1/statuses/home_timeline.json"
+        let params = ["counts": numOfTweets]
+        
+        TwitterAPICaller.client?.getDictionariesRequest(url: tweetsAPI, parameters: params as [String : Any], success: { (tweetsJSON: [NSDictionary]) in
+            
+            self.populateTwitterArray(tweets: tweetsJSON)
+            
+        }, failure: { (Error) in
+            print("ERROR: Could not retrieve initial tweets.")
+            print(Error)
+        })
+        
+        self.myRefreshControl.endRefreshing()
+    }
+    
+    func populateTwitterArray(tweets: [NSDictionary]){
+        self.tweetArray.removeAll()
+        
+        for tweet in tweets {
+            self.tweetArray.append(tweet)
+        }
+        
+        self.tableView.reloadData()
+    }
+    
+    func loadMoreTweets() {
+        numOfTweets += 20
+        
+        let tweetsAPI = "https://api.twitter.com/1.1/statuses/home_timeline.json"
+        let params = ["counts": numOfTweets]
+        
+        TwitterAPICaller.client?.getDictionariesRequest(url: tweetsAPI, parameters: params as [String : Any], success: { (tweetsJSON: [NSDictionary]) in
+            
+            self.populateTwitterArray(tweets: tweetsJSON)
+            
+        }, failure: { (Error) in
+            print("ERROR: Could not retrieve more tweets.")
+        })
+        
+    }
+    
 
     // MARK: - Action Functions
     @IBAction func onLogoutClicked(_ sender: Any) {

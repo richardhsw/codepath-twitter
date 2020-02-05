@@ -10,13 +10,17 @@ import UIKit
 
 class TweetTableViewCell: UITableViewCell {
     
+    // MARK: - Variables
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var tweetContentLabel: UILabel!
     
+    // MARK: - Initialization
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        profileImage.layer.masksToBounds = true
+        profileImage.layer.cornerRadius = profileImage.bounds.width / 2
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
