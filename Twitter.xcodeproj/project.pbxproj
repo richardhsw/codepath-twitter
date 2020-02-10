@@ -18,6 +18,7 @@
 		D17A1AEE23EA409D00BA52E2 /* TweetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17A1AED23EA409D00BA52E2 /* TweetTableViewCell.swift */; };
 		D19AD67A23ED103200F2EDE1 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19AD67923ED103200F2EDE1 /* Enums.swift */; };
 		D1E919AB23F0E8AC00BE0FEA /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E919AA23F0E8AC00BE0FEA /* Tweet.swift */; };
+		D1E919AD23F0ED2C00BE0FEA /* TweetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E919AC23F0ED2C00BE0FEA /* TweetViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		D17A1AED23EA409D00BA52E2 /* TweetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTableViewCell.swift; sourceTree = "<group>"; };
 		D19AD67923ED103200F2EDE1 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		D1E919AA23F0E8AC00BE0FEA /* Tweet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
+		D1E919AC23F0ED2C00BE0FEA /* TweetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +107,7 @@
 			children = (
 				D1649FEF23E95F6F00B664F3 /* LoginViewController.swift */,
 				D17A1AEA23E9FCEF00BA52E2 /* HomeTableViewController.swift */,
+				D1E919AC23F0ED2C00BE0FEA /* TweetViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -259,6 +262,7 @@
 				D1649FF023E95F6F00B664F3 /* LoginViewController.swift in Sources */,
 				6EBCF54421E047A500451C03 /* TwitterAPICaller.swift in Sources */,
 				D1E919AB23F0E8AC00BE0FEA /* Tweet.swift in Sources */,
+				D1E919AD23F0ED2C00BE0FEA /* TweetViewController.swift in Sources */,
 				D17A1AEE23EA409D00BA52E2 /* TweetTableViewCell.swift in Sources */,
 				6EBCF52621DF07FC00451C03 /* AppDelegate.swift in Sources */,
 				D19AD67A23ED103200F2EDE1 /* Enums.swift in Sources */,

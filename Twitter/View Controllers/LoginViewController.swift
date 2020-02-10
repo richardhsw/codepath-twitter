@@ -22,10 +22,14 @@ class LoginViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         self.navigationController?.isNavigationBarHidden = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
         if (UserDefaults.standard.bool(forKey: UserDefaultsKeys.isLoggedIn.rawValue)) {
             self.performSegue(withIdentifier: SegueIdentifiers.loginSuccess.rawValue, sender: self)
         }

@@ -19,6 +19,7 @@ enum UserDefaultsKeys: String {
 enum TwitterApiURL: String {
     case LoginURL = "https://api.twitter.com/oauth/request_token"
     case HomeFeedURL = "https://api.twitter.com/1.1/statuses/home_timeline.json"
+    case UpdateURL = "https://api.twitter.com/1.1/statuses/update.json"
 }
 
 enum Cells: String {

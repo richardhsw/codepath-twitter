@@ -25,12 +25,14 @@ class HomeTableViewController: UITableViewController {
         
         myRefreshControl.addTarget(self, action: #selector(loadTweets), for: .valueChanged)
         tableView.refreshControl = myRefreshControl
+        
+        NotificationCenter.default.addObserver(self, selector: #selector((loadTweets)), name: NSNotification.Name(rawValue: "loadTweets"), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         self.navigationController?.isNavigationBarHidden = false
-        self.navigationItem.leftBarButtonItem = nil
-        self.navigationItem.hidesBackButton = true
     }
     
     
