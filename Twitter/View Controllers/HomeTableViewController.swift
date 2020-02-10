@@ -15,7 +15,6 @@ class HomeTableViewController: UITableViewController {
     let myRefreshControl = UIRefreshControl()
     var tweetArray = [NSDictionary]()
     var numOfTweets: Int!
-    var noMoreData = false
 
     
     // MARK: - Initialization
@@ -45,31 +44,37 @@ class HomeTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TweetCell", for: indexPath) as! TweetTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Cells.TweetCell.rawValue, for: indexPath) as! TweetTableViewCell
         
-        let tweet = tweetArray[indexPath.row]
+        // Extract info from JSON
+        let tweetJSON = tweetArray[indexPath.row]
         
-        // Set tweet username
-        let user  = tweet["user"] as! NSDictionary
-        cell.usernameLabel.text = user["name"] as? String
+        let user = tweetJSON["user"] as! NSDictionary
+        let text = tweetJSON["text"] as? String
+        let name = user["name"] as? String
         
-        // Set tweet user's profile pic
-        let profileURL = URL(string: (user["profile_image_url_https"] as? String)!)
-        let data = try? Data(contentsOf: profileURL!)
+        let profile    = user["profile_image_url_https"] as? String
+        let profileURL = URL(string: profile!)
         
+        let tweet = Tweet(username: name!, profilePicURL: profileURL!, text: text!)
+        
+        // Populate UI with tweet info
+        cell.usernameLabel.text = tweet.username
+        
+        let data = try? Data(contentsOf: tweet.profilePicURL)
         if let imageData = data {
             cell.profileImage.image = UIImage(data: imageData)
         }
         
-        // Set tweet text
-        cell.tweetContentLabel.text = tweet["text"] as? String
+        cell.tweetContentLabel.text = tweet.text
         
         return cell
     }
     
     override open func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if (indexPath.row + 1 == tweetArray.count) && !noMoreData {
-            loadMoreTweets()
+        if (indexPath.row + 1 == tweetArray.count) {
+            // TODO: fix infinite scroll here
+            // loadMoreTweets()
         }
     }
     
@@ -77,11 +82,9 @@ class HomeTableViewController: UITableViewController {
     // MARK: - Twitter Functions
     @objc func loadTweets() {
         numOfTweets = 20
-        
-        let tweetsAPI = "https://api.twitter.com/1.1/statuses/home_timeline.json"
         let params = ["counts": numOfTweets]
         
-        TwitterAPICaller.client?.getDictionariesRequest(url: tweetsAPI, parameters: params as [String : Any], success: { (tweetsJSON: [NSDictionary]) in
+        TwitterAPICaller.client?.getDictionariesRequest(url: TwitterApiURL.HomeFeedURL.rawValue, parameters: params as [String : Any], success: { (tweetsJSON: [NSDictionary]) in
             
             self.populateTwitterArray(tweets: tweetsJSON)
             
@@ -104,22 +107,14 @@ class HomeTableViewController: UITableViewController {
     }
     
     func loadMoreTweets() {
-        numOfTweets = numOfTweets + 20
-        
-        let tweetsAPI = "https://api.twitter.com/1.1/statuses/home_timeline.json"
+        numOfTweets = tweetArray.count + 20
         let params = ["counts": numOfTweets]
         
-        TwitterAPICaller.client?.getDictionariesRequest(url: tweetsAPI, parameters: params as [String : Any], success: { (tweetsJSON: [NSDictionary]) in
+        TwitterAPICaller.client?.getDictionariesRequest(url: TwitterApiURL.HomeFeedURL.rawValue, parameters: params as [String : Any], success: { (tweetsJSON: [NSDictionary]) in
             
             // If there are no new data obtained from API call,
             // stop infinite scrolling to prevent loop.
-            if (tweetsJSON.count == self.numOfTweets - 20) {
-                self.noMoreData = true
-            }
-            else {
-                self.populateTwitterArray(tweets: tweetsJSON)
-                self.noMoreData = false
-            }
+            self.populateTwitterArray(tweets: tweetsJSON)
             
         }, failure: { (Error) in
             print("ERROR: Could not retrieve more tweets.")
@@ -129,7 +124,7 @@ class HomeTableViewController: UITableViewController {
     // MARK: - Action Functions
     @IBAction func onLogoutClicked(_ sender: Any) {
         TwitterAPICaller.client?.logout()
-        UserDefaults.standard.set(false, forKey: "isLoggedIn")
-        self.performSegue(withIdentifier: "unwindToLogin", sender: self)
+        UserDefaults.standard.set(false, forKey: UserDefaultsKeys.isLoggedIn.rawValue)
+        self.performSegue(withIdentifier: SegueIdentifiers.unwindToLogin.rawValue, sender: self)
     }
 }

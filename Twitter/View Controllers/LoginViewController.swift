@@ -26,19 +26,17 @@ class LoginViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if (UserDefaults.standard.bool(forKey: "isLoggedIn")) {
-            self.performSegue(withIdentifier: "loginSuccess", sender: self)
+        if (UserDefaults.standard.bool(forKey: UserDefaultsKeys.isLoggedIn.rawValue)) {
+            self.performSegue(withIdentifier: SegueIdentifiers.loginSuccess.rawValue, sender: self)
         }
     }
     
     // MARK: - Action Functions
     @IBAction func onLoginClicked(_ sender: Any) {
-        let loginURL = "https://api.twitter.com/oauth/request_token"
-        
-        TwitterAPICaller.client?.login(url: loginURL, success: {
+        TwitterAPICaller.client?.login(url: TwitterApiURL.LoginURL.rawValue, success: {
             
-            UserDefaults.standard.set(true, forKey: "isLoggedIn")
-            self.performSegue(withIdentifier: "loginSuccess", sender: self)
+            UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isLoggedIn.rawValue)
+            self.performSegue(withIdentifier: SegueIdentifiers.loginSuccess.rawValue, sender: self)
             
         }, failure: {(Error) in
             print("Login Failure")
