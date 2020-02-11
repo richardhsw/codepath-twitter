@@ -8,15 +8,24 @@
 
 import UIKit
 
-class TweetViewController: UIViewController {
+class TweetViewController: UIViewController, UITextViewDelegate{
 
-    // MARK: Variables
+    // MARK: - Variables
     @IBOutlet weak var tweetTextView: UITextView!
+    @IBOutlet weak var charCountLabel: UILabel!
+    
+    let characterLimit = 140
 
     
-    // MARK: Initialization
+    // MARK: - Initialization
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tweetTextView.delegate = self
+        
+        tweetTextView.layer.borderWidth = 1
+        tweetTextView.layer.borderColor = UIColor.darkGray.cgColor
+        tweetTextView.layer.cornerRadius = 6
         
         tweetTextView.text = TextViewStrings.createTweet.rawValue
         tweetTextView.textColor = UIColor.lightGray
@@ -25,9 +34,11 @@ class TweetViewController: UIViewController {
     }
     
     
-    // MARK: TextView Functions
+    // MARK: - TextView Functions
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-
+        
+        // placeholder text code obtained from https://stackoverflow.com/questions/27652227/text-view-uitextview-placeholder-swift
+        
         // Combine the textView text and the replacement text to
         // create the updated text string
         let currentText:String = textView.text
@@ -36,8 +47,7 @@ class TweetViewController: UIViewController {
         // If updated text view will be empty, add the placeholder
         // and set the cursor to the beginning of the text view
         if updatedText.isEmpty {
-
-            textView.text = "Placeholder"
+            textView.text = TextViewStrings.createTweet.rawValue
             textView.textColor = UIColor.lightGray
 
             textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
@@ -47,24 +57,23 @@ class TweetViewController: UIViewController {
         // length of the replacement string is greater than 0, set
         // the text color to black then set its text to the
         // replacement string
-         else if textView.textColor == UIColor.lightGray && !text.isEmpty {
-            textView.textColor = UIColor.black
-            textView.text = text
+        else if textView.textColor == UIColor.lightGray && !text.isEmpty {
+                textView.textColor = UIColor.black
+                textView.text = text
         }
+        
+        // Construct what the new text would be if we allowed the user's latest edit
+        let newTextCount = updatedText.count
 
-        // For every other case, the text should change with the usual
-        // behavior...
-        else {
-            return true
-        }
+        // Update Character Count Label
+        charCountLabel.text = String(characterLimit - newTextCount)
 
-        // ...otherwise return false since the updates have already
-        // been made
-        return false
+        // The new text should be allowed? True/False
+        return newTextCount < characterLimit
     }
 
     
-    // MARK: Action Functions
+    // MARK: - Action Functions
     @IBAction func cancel(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }

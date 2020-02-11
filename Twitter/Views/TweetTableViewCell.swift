@@ -77,7 +77,7 @@ class TweetTableViewCell: UITableViewCell {
     }
     
     
-    // MARK: Public functions
+    // MARK: - Public functions
     func setFavorite(_ isFavorited: Bool) {
         favorited = isFavorited
         if (favorited) {
