@@ -10,6 +10,7 @@ import Foundation
 
 struct Tweet {
     let username : String
+    let screenname : String
     let profilePicURL : URL
     let text : String
 }

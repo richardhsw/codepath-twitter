@@ -54,14 +54,16 @@ class HomeTableViewController: UITableViewController {
         let user = tweetJSON["user"] as! NSDictionary
         let text = tweetJSON["text"] as? String
         let name = user["name"] as? String
+        let screen = "@" + ((user["screen_name"] as? String)!)
         
         let profile    = user["profile_image_url_https"] as? String
         let profileURL = URL(string: profile!)
         
-        let tweet = Tweet(username: name!, profilePicURL: profileURL!, text: text!)
+        let tweet = Tweet(username: name!, screenname: screen, profilePicURL: profileURL!, text: text!)
         
         // Populate UI with tweet info
-        cell.usernameLabel.text = tweet.username
+        cell.usernameLabel.text   = tweet.username
+        cell.screennameLabel.text = tweet.screenname
         
         let data = try? Data(contentsOf: tweet.profilePicURL)
         if let imageData = data {

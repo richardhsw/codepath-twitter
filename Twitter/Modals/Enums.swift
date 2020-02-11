@@ -25,3 +25,7 @@ enum TwitterApiURL: String {
 enum Cells: String {
     case TweetCell
 }
+
+enum TextViewStrings: String {
+    case createTweet = "What's happening?"
+}

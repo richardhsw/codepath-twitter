@@ -102,10 +102,24 @@
                                                 <constraint firstAttribute="width" constant="45" id="qB6-JK-JQ8"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="John Doe" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QiQ-po-NwS">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="252" horizontalCompressionResistancePriority="752" text="John Doe" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QiQ-po-NwS" userLabel="Name Label">
                                             <rect key="frame" x="75" y="11" width="80" height="22"/>
                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                             <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="@username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bY0-WC-6it" userLabel="Username Label">
+                                            <rect key="frame" x="160" y="11" width="96.333333333333314" height="22"/>
+                                            <edgeInsets key="layoutMargins" top="0.0" left="0.0" bottom="0.0" right="0.0"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <color key="textColor" red="0.39607843139999999" green="0.46666666670000001" blue="0.52549019610000003" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text=" · 16h" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BbY-hP-Yby" userLabel="Time Posted Label">
+                                            <rect key="frame" x="256.33333333333331" y="11" width="43.666666666666686" height="22"/>
+                                            <edgeInsets key="layoutMargins" top="0.0" left="0.0" bottom="0.0" right="0.0"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <color key="textColor" red="0.39607843139999999" green="0.46666666670000001" blue="0.52549019610000003" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tweet Content" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AyI-iT-3Cq">
@@ -119,15 +133,23 @@
                                         <constraint firstItem="AyI-iT-3Cq" firstAttribute="top" secondItem="QiQ-po-NwS" secondAttribute="bottom" constant="4" id="3RW-cw-ItI"/>
                                         <constraint firstItem="QiQ-po-NwS" firstAttribute="leading" secondItem="pAk-q2-Vpe" secondAttribute="trailing" constant="10" id="8qa-op-GKY"/>
                                         <constraint firstItem="AyI-iT-3Cq" firstAttribute="leading" secondItem="QiQ-po-NwS" secondAttribute="leading" id="BOO-Mq-g7F"/>
+                                        <constraint firstItem="bY0-WC-6it" firstAttribute="bottom" secondItem="QiQ-po-NwS" secondAttribute="bottom" id="Dhv-RA-7Kf"/>
+                                        <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="BbY-hP-Yby" secondAttribute="trailing" id="L41-la-wcP"/>
                                         <constraint firstItem="pAk-q2-Vpe" firstAttribute="leading" secondItem="k9R-XW-ssn" secondAttribute="leadingMargin" id="NuC-QL-pOf"/>
+                                        <constraint firstItem="BbY-hP-Yby" firstAttribute="left" secondItem="bY0-WC-6it" secondAttribute="right" id="WNH-9a-ieP"/>
+                                        <constraint firstItem="bY0-WC-6it" firstAttribute="top" secondItem="QiQ-po-NwS" secondAttribute="top" id="We0-BV-Slg"/>
                                         <constraint firstItem="AyI-iT-3Cq" firstAttribute="bottom" secondItem="k9R-XW-ssn" secondAttribute="bottomMargin" id="Y5l-LH-gHz"/>
                                         <constraint firstItem="pAk-q2-Vpe" firstAttribute="top" secondItem="k9R-XW-ssn" secondAttribute="topMargin" id="c5l-Vd-mgL"/>
+                                        <constraint firstItem="bY0-WC-6it" firstAttribute="leading" secondItem="QiQ-po-NwS" secondAttribute="trailing" constant="5" id="c9O-Cm-avq"/>
                                         <constraint firstItem="QiQ-po-NwS" firstAttribute="top" secondItem="k9R-XW-ssn" secondAttribute="topMargin" id="rpd-fw-6a8"/>
+                                        <constraint firstItem="BbY-hP-Yby" firstAttribute="top" secondItem="bY0-WC-6it" secondAttribute="top" id="s8p-Hs-j0x"/>
                                         <constraint firstItem="AyI-iT-3Cq" firstAttribute="trailing" secondItem="k9R-XW-ssn" secondAttribute="trailingMargin" id="wyh-Xd-YY6"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="profileImage" destination="pAk-q2-Vpe" id="oK5-fo-3OL"/>
+                                    <outlet property="screennameLabel" destination="bY0-WC-6it" id="yaw-IP-U8E"/>
+                                    <outlet property="timeLabel" destination="BbY-hP-Yby" id="3kA-xb-Cgd"/>
                                     <outlet property="tweetContentLabel" destination="AyI-iT-3Cq" id="pry-et-emI"/>
                                     <outlet property="usernameLabel" destination="QiQ-po-NwS" id="SXk-pE-3nj"/>
                                 </connections>
