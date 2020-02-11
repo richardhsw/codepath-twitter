@@ -15,17 +15,23 @@ class HomeTableViewController: UITableViewController {
     let myRefreshControl = UIRefreshControl()
     var tweetArray = [NSDictionary]()
     var numOfTweets: Int!
+    let dateFormatterGet = DateFormatter()
 
     
     // MARK: - Initialization
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Format date time
+        dateFormatterGet.dateFormat = FormatStrings.dateFormat.rawValue
+        
+        // Get tweets
         loadTweets()
         
         myRefreshControl.addTarget(self, action: #selector(loadTweets), for: .valueChanged)
         tableView.refreshControl = myRefreshControl
         
+        // Add observer to tweet
         NotificationCenter.default.addObserver(self, selector: #selector((loadTweets)), name: NSNotification.Name(rawValue: "loadTweets"), object: nil)
     }
     
@@ -51,19 +57,26 @@ class HomeTableViewController: UITableViewController {
         // Extract info from JSON
         let tweetJSON = tweetArray[indexPath.row]
         
+        // Get text info
         let user = tweetJSON["user"] as! NSDictionary
         let text = tweetJSON["text"] as? String
         let name = user["name"] as? String
         let screen = "@" + ((user["screen_name"] as? String)!)
         
+        // Get picture info
         let profile    = user["profile_image_url_https"] as? String
         let profileURL = URL(string: profile!)
         
-        let tweet = Tweet(username: name!, screenname: screen, profilePicURL: profileURL!, text: text!)
+        // Get time info
+        let timeString = tweetJSON["created_at"] as? String
+        let elapsed    = GetDate(apiString: timeString!)
+        
+        let tweet = Tweet(username: name!, screenname: screen, timeAgo: elapsed, profilePicURL: profileURL!, text: text!)
         
         // Populate UI with tweet info
         cell.usernameLabel.text   = tweet.username
         cell.screennameLabel.text = tweet.screenname
+        cell.timeLabel.text       = " · " + tweet.timeAgo
         
         let data = try? Data(contentsOf: tweet.profilePicURL)
         if let imageData = data {
@@ -130,5 +143,14 @@ class HomeTableViewController: UITableViewController {
         TwitterAPICaller.client?.logout()
         UserDefaults.standard.set(false, forKey: UserDefaultsKeys.isLoggedIn.rawValue)
         self.performSegue(withIdentifier: SegueIdentifiers.unwindToLogin.rawValue, sender: self)
+    }
+    
+    
+    // MARK: Helper Functions
+    func GetDate(apiString: String) -> String {
+        let date = dateFormatterGet.date(from: apiString)
+        guard let elapsed = date?.getElapsedInterval() else { return "1m" }
+        
+        return elapsed
     }
 }

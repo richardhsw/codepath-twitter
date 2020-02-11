@@ -11,6 +11,7 @@ import Foundation
 struct Tweet {
     let username : String
     let screenname : String
+    let timeAgo : String
     let profilePicURL : URL
     let text : String
 }

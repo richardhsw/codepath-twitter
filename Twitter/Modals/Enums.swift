@@ -29,3 +29,7 @@ enum Cells: String {
 enum TextViewStrings: String {
     case createTweet = "What's happening?"
 }
+
+enum FormatStrings: String {
+    case dateFormat = "E MMM dd HH:mm:ss Z yyyy"
+}
