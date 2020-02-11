@@ -17,7 +17,9 @@ class TweetTableViewCell: UITableViewCell {
     @IBOutlet weak var screennameLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var favButton: UIButton!
+    @IBOutlet weak var favCountLabel: UILabel!
     @IBOutlet weak var retweetButton: UIButton!
+    @IBOutlet weak var retweetCountLabel: UILabel!
     
     var tweetID: Int = -1
     var favorited: Bool = false
@@ -34,8 +36,6 @@ class TweetTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 
     

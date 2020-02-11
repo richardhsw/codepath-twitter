@@ -143,11 +143,13 @@ class HomeTableViewController: UITableViewController {
         
         // Get favorite info
         let favorited = tweetJSON["favorited"] as! Bool
+        let favCount  = tweetJSON["favorite_count"] as! Int
         
         // Get retweet info
-        let retweeted = tweetJSON["retweeted"] as! Bool
+        let retweeted    = tweetJSON["retweeted"] as! Bool
+        let retweetCount = tweetJSON["retweet_count"] as! Int
         
-        let tweet = Tweet(id: id, username: name, screenname: screen, timeAgo: elapsed, profilePicURL: profileURL, text: text, favorited: favorited, retweeted: retweeted)
+        let tweet = Tweet(id: id, username: name, screenname: screen, timeAgo: elapsed, profilePicURL: profileURL, text: text, favorited: favorited, favCount: favCount, retweeted: retweeted, retweetCount: retweetCount)
         
         return tweet
     }
@@ -158,6 +160,7 @@ class HomeTableViewController: UITableViewController {
         cell.usernameLabel.text   = tweet.username
         cell.screennameLabel.text = tweet.screenname
         cell.timeLabel.text       = " · " + tweet.timeAgo
+        
         cell.tweetContentLabel.text = tweet.text
         
         // Fill in picture information
@@ -168,8 +171,12 @@ class HomeTableViewController: UITableViewController {
         
         // Fill in button information
         cell.tweetID = tweet.id
+        
         cell.setFavorite(tweet.favorited)
+        cell.favCountLabel.text = String(tweet.favCount)
+        
         cell.setRetweeted(tweet.retweeted)
+        cell.retweetCountLabel.text = String(tweet.retweetCount)
     }
     
     func GetDate(apiString: String) -> String {
