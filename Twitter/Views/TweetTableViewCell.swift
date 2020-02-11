@@ -82,9 +82,13 @@ class TweetTableViewCell: UITableViewCell {
         favorited = isFavorited
         if (favorited) {
             favButton.setImage(UIImage(named: ImageNames.favIconHighlighted.rawValue), for: UIControl.State.normal)
+            
+            favCountLabel.text = String(Int(favCountLabel.text!)! + 1)
         }
         else {
             favButton.setImage(UIImage(named: ImageNames.favIcon.rawValue), for: UIControl.State.normal)
+            
+            favCountLabel.text = String(Int(favCountLabel.text!)! - 1)
         }
     }
     
@@ -93,10 +97,14 @@ class TweetTableViewCell: UITableViewCell {
         if (retweeted) {
             retweetButton.setImage(UIImage(named: ImageNames.retweetIconHighlighted.rawValue), for: UIControl.State.normal)
             retweetButton.isEnabled = false
+            
+            retweetCountLabel.text = String(Int(retweetCountLabel.text!)! + 1)
         }
         else {
             retweetButton.setImage(UIImage(named: ImageNames.retweetIcon.rawValue), for: UIControl.State.normal)
             retweetButton.isEnabled = true
+            
+            retweetCountLabel.text = String(Int(retweetCountLabel.text!)! - 1)
         }
     }
 }

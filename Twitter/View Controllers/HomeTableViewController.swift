@@ -25,6 +25,9 @@ class HomeTableViewController: UITableViewController {
         // Format date time
         dateFormatterGet.dateFormat = FormatStrings.dateFormat.rawValue
         
+        // Make cells not selectable
+        tableView.allowsSelection = false
+        
         // Get tweets
         loadTweets()
         
