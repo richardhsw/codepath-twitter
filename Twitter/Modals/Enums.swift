@@ -20,6 +20,10 @@ enum TwitterApiURL: String {
     case LoginURL = "https://api.twitter.com/oauth/request_token"
     case HomeFeedURL = "https://api.twitter.com/1.1/statuses/home_timeline.json"
     case UpdateURL = "https://api.twitter.com/1.1/statuses/update.json"
+    case FavoriteCreateURL = "https://api.twitter.com/1.1/favorites/create.json"
+    case FavoriteDestroyURL = "https://api.twitter.com/1.1/favorites/destroy.json"
+    case RetweetURL = "https://api.twitter.com/1.1/statuses/retweet/"
+    case UnretweetURL = "https://api.twitter.com/1.1/statuses/unretweet/"
 }
 
 enum Cells: String {
@@ -32,4 +36,11 @@ enum TextViewStrings: String {
 
 enum FormatStrings: String {
     case dateFormat = "E MMM dd HH:mm:ss Z yyyy"
+}
+
+enum ImageNames: String {
+    case favIcon = "favor-icon"
+    case favIconHighlighted = "favor-icon-red"
+    case retweetIcon = "retweet-icon"
+    case retweetIconHighlighted = "retweet-icon-green"
 }

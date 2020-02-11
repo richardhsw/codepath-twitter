@@ -33,6 +33,9 @@ class HomeTableViewController: UITableViewController {
         
         // Add observer to tweet
         NotificationCenter.default.addObserver(self, selector: #selector((loadTweets)), name: NSNotification.Name(rawValue: "loadTweets"), object: nil)
+        
+        // Set cell heights
+        self.tableView.estimatedRowHeight = 150
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,7 +45,7 @@ class HomeTableViewController: UITableViewController {
     }
     
     
-    // MARK: - Table view data source
+    // MARK: - TableView Functions
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -54,36 +57,10 @@ class HomeTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Cells.TweetCell.rawValue, for: indexPath) as! TweetTableViewCell
         
-        // Extract info from JSON
         let tweetJSON = tweetArray[indexPath.row]
+        let tweet = ParseTweet(tweetJSON: tweetJSON)
         
-        // Get text info
-        let user = tweetJSON["user"] as! NSDictionary
-        let text = tweetJSON["text"] as? String
-        let name = user["name"] as? String
-        let screen = "@" + ((user["screen_name"] as? String)!)
-        
-        // Get picture info
-        let profile    = user["profile_image_url_https"] as? String
-        let profileURL = URL(string: profile!)
-        
-        // Get time info
-        let timeString = tweetJSON["created_at"] as? String
-        let elapsed    = GetDate(apiString: timeString!)
-        
-        let tweet = Tweet(username: name!, screenname: screen, timeAgo: elapsed, profilePicURL: profileURL!, text: text!)
-        
-        // Populate UI with tweet info
-        cell.usernameLabel.text   = tweet.username
-        cell.screennameLabel.text = tweet.screenname
-        cell.timeLabel.text       = " · " + tweet.timeAgo
-        
-        let data = try? Data(contentsOf: tweet.profilePicURL)
-        if let imageData = data {
-            cell.profileImage.image = UIImage(data: imageData)
-        }
-        
-        cell.tweetContentLabel.text = tweet.text
+        PopulateCell(forCell: cell, with: tweet)
         
         return cell
     }
@@ -146,7 +123,55 @@ class HomeTableViewController: UITableViewController {
     }
     
     
-    // MARK: Helper Functions
+    // MARK: - Helper Functions
+    func ParseTweet(tweetJSON: NSDictionary) -> Tweet {
+        
+        // Get text info
+        let id   = tweetJSON["id"] as! Int
+        let user = tweetJSON["user"] as! NSDictionary
+        let text = tweetJSON["text"] as! String
+        let name = user["name"] as! String
+        let screen = "@" + (user["screen_name"] as! String)
+        
+        // Get picture info
+        let profile = user["profile_image_url_https"] as! String
+        let profileURL = URL(string: profile)!
+        
+        // Get time info
+        let timeString = tweetJSON["created_at"] as! String
+        let elapsed    = GetDate(apiString: timeString)
+        
+        // Get favorite info
+        let favorited = tweetJSON["favorited"] as! Bool
+        
+        // Get retweet info
+        let retweeted = tweetJSON["retweeted"] as! Bool
+        
+        let tweet = Tweet(id: id, username: name, screenname: screen, timeAgo: elapsed, profilePicURL: profileURL, text: text, favorited: favorited, retweeted: retweeted)
+        
+        return tweet
+    }
+    
+    func PopulateCell(forCell cell: TweetTableViewCell, with tweet: Tweet) {
+        // Populate UI with tweet info
+        // Fill in text information
+        cell.usernameLabel.text   = tweet.username
+        cell.screennameLabel.text = tweet.screenname
+        cell.timeLabel.text       = " · " + tweet.timeAgo
+        cell.tweetContentLabel.text = tweet.text
+        
+        // Fill in picture information
+        let data = try? Data(contentsOf: tweet.profilePicURL)
+        if let imageData = data {
+            cell.profileImage.image = UIImage(data: imageData)
+        }
+        
+        // Fill in button information
+        cell.tweetID = tweet.id
+        cell.setFavorite(tweet.favorited)
+        cell.setRetweeted(tweet.retweeted)
+    }
+    
     func GetDate(apiString: String) -> String {
         let date = dateFormatterGet.date(from: apiString)
         guard let elapsed = date?.getElapsedInterval() else { return "1m" }
