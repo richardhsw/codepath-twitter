@@ -22,6 +22,9 @@ class TweetViewController: UIViewController, UITextViewDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        profileImgView.layer.masksToBounds = true
+        profileImgView.layer.cornerRadius = profileImgView.bounds.width / 2
+        
         customizeTextView()
         
         getProfilePicture()
