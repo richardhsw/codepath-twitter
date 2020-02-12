@@ -342,7 +342,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="78q-sc-kKx" userLabel="Tweet Text View">
-                                <rect key="frame" x="12" y="68" width="390" height="220"/>
+                                <rect key="frame" x="78" y="76" width="324" height="220"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="220" id="tOa-TW-7pU"/>
@@ -352,16 +352,25 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="140" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xea-cg-P0O" userLabel="Char Count Label">
-                                <rect key="frame" x="378" y="293" width="24" height="17"/>
+                                <rect key="frame" x="378" y="301" width="24" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KPF-el-fGH">
+                                <rect key="frame" x="20" y="76" width="48" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="48" id="qF4-E2-0S3"/>
+                                    <constraint firstAttribute="height" constant="48" id="qNC-Xf-LSf"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="78q-sc-kKx" firstAttribute="leading" secondItem="apg-vm-Cih" secondAttribute="leading" constant="12" id="9hD-Tw-ep8"/>
-                            <constraint firstItem="78q-sc-kKx" firstAttribute="top" secondItem="apg-vm-Cih" secondAttribute="top" constant="12" id="cnl-fd-29S"/>
+                            <constraint firstItem="78q-sc-kKx" firstAttribute="top" secondItem="KPF-el-fGH" secondAttribute="top" id="45K-0d-5lg"/>
+                            <constraint firstItem="KPF-el-fGH" firstAttribute="leading" secondItem="apg-vm-Cih" secondAttribute="leading" constant="20" id="Yij-O9-8Y6"/>
+                            <constraint firstItem="78q-sc-kKx" firstAttribute="leading" secondItem="KPF-el-fGH" secondAttribute="trailing" constant="10" id="fpn-yM-Y6T"/>
+                            <constraint firstItem="KPF-el-fGH" firstAttribute="top" secondItem="apg-vm-Cih" secondAttribute="top" constant="20" id="npo-Ul-urZ"/>
                             <constraint firstItem="Xea-cg-P0O" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="apg-vm-Cih" secondAttribute="leading" id="owc-r1-ljX"/>
                             <constraint firstItem="apg-vm-Cih" firstAttribute="trailing" secondItem="78q-sc-kKx" secondAttribute="trailing" constant="12" id="vKe-0B-r6R"/>
                             <constraint firstItem="Xea-cg-P0O" firstAttribute="top" secondItem="78q-sc-kKx" secondAttribute="bottom" constant="5" id="y5t-0g-qdB"/>
@@ -385,6 +394,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="charCountLabel" destination="Xea-cg-P0O" id="bVa-ee-hy2"/>
+                        <outlet property="profileImgView" destination="KPF-el-fGH" id="FuY-Ep-WJ0"/>
                         <outlet property="tweetTextView" destination="78q-sc-kKx" id="oeR-fJ-xOo"/>
                     </connections>
                 </viewController>

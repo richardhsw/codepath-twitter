@@ -13,6 +13,7 @@ class TweetViewController: UIViewController, UITextViewDelegate{
     // MARK: - Variables
     @IBOutlet weak var tweetTextView: UITextView!
     @IBOutlet weak var charCountLabel: UILabel!
+    @IBOutlet weak var profileImgView: UIImageView!
     
     let characterLimit = 140
 
@@ -21,16 +22,9 @@ class TweetViewController: UIViewController, UITextViewDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tweetTextView.delegate = self
+        customizeTextView()
         
-        tweetTextView.layer.borderWidth = 1
-        tweetTextView.layer.borderColor = UIColor.darkGray.cgColor
-        tweetTextView.layer.cornerRadius = 6
-        
-        tweetTextView.text = TextViewStrings.createTweet.rawValue
-        tweetTextView.textColor = UIColor.lightGray
-        tweetTextView.becomeFirstResponder()
-        tweetTextView.selectedTextRange = tweetTextView.textRange(from: tweetTextView.beginningOfDocument, to: tweetTextView.beginningOfDocument)
+        getProfilePicture()
     }
     
     
@@ -71,7 +65,40 @@ class TweetViewController: UIViewController, UITextViewDelegate{
         // The new text should be allowed? True/False
         return newTextCount < characterLimit
     }
-
+    
+    func customizeTextView() {
+        tweetTextView.delegate = self
+        
+        tweetTextView.layer.borderWidth = 1
+        tweetTextView.layer.borderColor = UIColor.darkGray.cgColor
+        tweetTextView.layer.cornerRadius = 6
+        
+        tweetTextView.text = TextViewStrings.createTweet.rawValue
+        tweetTextView.textColor = UIColor.lightGray
+        tweetTextView.becomeFirstResponder()
+        tweetTextView.selectedTextRange = tweetTextView.textRange(from: tweetTextView.beginningOfDocument, to: tweetTextView.beginningOfDocument)
+    }
+    
+    
+    // MARK: - Private Functions
+    func getProfilePicture() {
+        TwitterAPICaller.client?.getDictionaryRequest(url: TwitterApiURL.ProfileURL.rawValue, parameters: [:], success: { (profileJSON: NSDictionary) in
+            
+            // Extract profile pic URL
+            var profileImg = profileJSON["profile_image_url_https"] as! String
+            profileImg = profileImg.replacingOccurrences(of: "normal", with: "bigger")
+            let profileImgURL = URL(string: profileImg)
+            
+            // Display profile pic
+            let data = try? Data(contentsOf: profileImgURL!)
+            if let imageData = data {
+                self.profileImgView.image = UIImage(data: imageData)
+            }
+            
+        }, failure: { (Error) in
+            print("ERROR - Could not retrieve user profile:\n\(Error)")
+        })
+    }
     
     // MARK: - Action Functions
     @IBAction func cancel(_ sender: Any) {
