@@ -14,6 +14,8 @@ struct Profile {
     let description : String
     let profileImageURL : URL
     let bannerImageURL : URL?
+    let statusCount : Int
     let followingCount : Int
     let followerCount : Int
+    
 }

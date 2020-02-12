@@ -10,6 +10,7 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
+    // MARK: - Variables
     @IBOutlet weak var bannerImageView: UIImageView!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
@@ -17,7 +18,10 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var followingCountLabel: UILabel!
     @IBOutlet weak var followersCountLabel: UILabel!
+    @IBOutlet weak var tweetsCountLabel: UILabel!
     
+    
+    // MARK: - Init Code
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -28,6 +32,8 @@ class ProfileViewController: UIViewController {
         getProfile()
     }
     
+    
+    // MARK: - Private Functions
     func getProfile() {
         TwitterAPICaller.client?.getDictionaryRequest(url: TwitterApiURL.ProfileURL.rawValue, parameters: [:], success: { (profileJSON: NSDictionary) in
             
@@ -38,6 +44,7 @@ class ProfileViewController: UIViewController {
             
             let followers = profileJSON["followers_count"] as! Int
             let following = profileJSON["friends_count"] as! Int
+            let numTweets = profileJSON["statuses_count"] as! Int
             
             var profileImg = profileJSON["profile_image_url_https"] as! String
             profileImg = profileImg.replacingOccurrences(of: "normal", with: "bigger")
@@ -51,7 +58,7 @@ class ProfileViewController: UIViewController {
                 bannerImgURL = URL(string: mobileBannerImg)
             }
             
-            let profile = Profile(username: username, screenname: screenname, description: description, profileImageURL: profileImgURL!, bannerImageURL: bannerImgURL, followingCount: following, followerCount: followers)
+            let profile = Profile(username: username, screenname: screenname, description: description, profileImageURL: profileImgURL!, bannerImageURL: bannerImgURL, statusCount: numTweets, followingCount: following, followerCount: followers)
             
             self.populateView(with: profile)
             
@@ -65,6 +72,7 @@ class ProfileViewController: UIViewController {
         screennameLabel.text = "@\(profile.screenname)"
         descriptionLabel.text = profile.description
         
+        tweetsCountLabel.text = String(profile.statusCount)
         followingCountLabel.text = String(profile.followingCount)
         followersCountLabel.text = String(profile.followerCount)
         
