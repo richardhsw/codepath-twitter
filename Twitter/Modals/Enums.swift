@@ -24,6 +24,7 @@ enum TwitterApiURL: String {
     case FavoriteDestroyURL = "https://api.twitter.com/1.1/favorites/destroy.json"
     case RetweetURL = "https://api.twitter.com/1.1/statuses/retweet/"
     case UnretweetURL = "https://api.twitter.com/1.1/statuses/unretweet/"
+    case ProfileURL = "https://api.twitter.com/1.1/account/verify_credentials.json"
 }
 
 enum Cells: String {
